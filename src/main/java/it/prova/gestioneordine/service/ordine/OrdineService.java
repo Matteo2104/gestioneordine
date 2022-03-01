@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.prova.gestioneordine.dao.ordine.OrdineDAO;
 import it.prova.gestioneordine.model.Articolo;
+import it.prova.gestioneordine.model.Categoria;
 import it.prova.gestioneordine.model.Ordine;
 
 
@@ -24,4 +25,7 @@ public interface OrdineService {
 	public void aggiungiArticoloAdOrdine(Ordine ordineInstance, Articolo articoloInstance) throws Exception;
 	
 	public Ordine caricaSingoloElementoEager(Long id) throws Exception;
+
+	// esercizi per casa
+	public List<Ordine> ordiniPerCategoria(Categoria categoria) throws Exception;
 }
