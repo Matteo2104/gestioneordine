@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Categoria;
 
 public class CategoriaDAOImpl implements CategoriaDAO {
@@ -24,8 +25,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 
 	@Override
 	public Categoria get(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return entityManager.find(Categoria.class, id);
 	}
 
 	@Override

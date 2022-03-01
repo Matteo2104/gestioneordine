@@ -107,7 +107,7 @@ public class Ordine {
 	public String toString() {
 		return "Ordine [id=" + id + ", nomeDestinatario=" + nomeDestinatario + ", indirizzoSpedizione="
 				+ indirizzoSpedizione + ", dataSpedizione=" + dataSpedizione + ", createDateTime=" + createDateTime
-				+ ", updateDateTime=" + updateDateTime + ", articoli=" + articoli + "]";
+				+ ", updateDateTime=" + updateDateTime +  "]";
 	}
 	
 	

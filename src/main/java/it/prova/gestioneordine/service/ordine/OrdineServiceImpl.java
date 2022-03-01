@@ -79,8 +79,30 @@ public class OrdineServiceImpl implements OrdineService {
 
 	@Override
 	public void rimuovi(Ordine ordineInstance) throws Exception {
-		// TODO Auto-generated method stub
-		
+		// questo è come una connection
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			entityManager.getTransaction().begin();
+
+			// uso l'injection per il dao
+			ordineDAO.setEntityManager(entityManager);
+
+			// ricarico dal DB l'ordine eager in modo da verificare se ci sono articoli collegati
+			Ordine ordineReloaded = ordineDAO.findByIdFetchingArticoli(ordineInstance.getId());
+			if (!ordineReloaded.getArticoli().isEmpty()) 
+				throw new RuntimeException("Impossibile eliminare un'ordine con degli articoli associati");
+			
+			ordineDAO.delete(ordineInstance);;
+
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}
 	}
 
 	@Override

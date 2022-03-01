@@ -45,8 +45,10 @@ public class OrdineDAOImpl implements OrdineDAO {
 
 	@Override
 	public void delete(Ordine o) throws Exception {
-		// TODO Auto-generated method stub
-		
+		if (o == null)
+			throw new RuntimeException("Problema nel valore passato in input");
+
+		entityManager.remove(entityManager.merge(o));
 	}
 	
 	@Override

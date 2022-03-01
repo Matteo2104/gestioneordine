@@ -24,8 +24,7 @@ public class ArticoloDAOImpl implements ArticoloDAO {
 
 	@Override
 	public Articolo get(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return entityManager.find(Articolo.class, id);
 	}
 
 	@Override

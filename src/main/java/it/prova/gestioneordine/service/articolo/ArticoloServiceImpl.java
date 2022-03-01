@@ -6,16 +6,23 @@ import javax.persistence.EntityManager;
 
 import it.prova.gestioneordine.dao.EntityManagerUtil;
 import it.prova.gestioneordine.dao.articolo.ArticoloDAO;
+import it.prova.gestioneordine.dao.categoria.CategoriaDAO;
 import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Categoria;
 
 public class ArticoloServiceImpl implements ArticoloService {
 
 	private ArticoloDAO articoloDAO;
+	private CategoriaDAO categoriaDAO;
 	
 	@Override
 	public void setArticoloDAO(ArticoloDAO articoloDAO) {
 		this.articoloDAO = articoloDAO;
+	}
+	
+	@Override
+	public void setCategoriaDAO(CategoriaDAO categoriaDAO) {
+		this.categoriaDAO = categoriaDAO;
 	}
 	
 	@Override
@@ -143,7 +150,7 @@ public class ArticoloServiceImpl implements ArticoloService {
 	}
 	
 	@Override
-	public void rimuoviCategoria(Articolo articoloInstance, Categoria categoriaInstance) throws Exception {
+	public void rimuoviCategoria(Articolo articolo, Categoria categoria) throws Exception {
 		// questo è come una connection
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
@@ -152,12 +159,9 @@ public class ArticoloServiceImpl implements ArticoloService {
 
 			// uso l'injection per il dao
 			articoloDAO.setEntityManager(entityManager);
-			
-			articoloInstance = entityManager.merge(articoloInstance);
-			
-			categoriaInstance = entityManager.merge(categoriaInstance);
-			
-			articoloInstance.getCategorie().remove(categoriaInstance);
+			categoriaDAO.setEntityManager(entityManager);
+		
+			articoloDAO.get(articolo.getId()).removeFromCategorie(categoriaDAO.get(categoria.getId()));
 
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {

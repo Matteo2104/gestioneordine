@@ -134,8 +134,12 @@ public class Articolo {
 	public String toString() {
 		return "Articolo [id=" + id + ", descrizione=" + descrizione + ", numeroSeriale=" + numeroSeriale
 				+ ", prezzoSingolo=" + prezzoSingolo + ", dataInserimento=" + dataInserimento + ", createDateTime="
-				+ createDateTime + ", updateDateTime=" + updateDateTime + ", ordine=" + ordine + ", categorie="
-				+ categorie + "]";
+				+ createDateTime + ", updateDateTime=" + updateDateTime + "]";
+	}
+	
+	public void removeFromCategorie(Categoria categoriaToRemove) {
+		this.categorie.remove(categoriaToRemove);
+		categoriaToRemove.getArticoli().remove(this);
 	}
 
 }

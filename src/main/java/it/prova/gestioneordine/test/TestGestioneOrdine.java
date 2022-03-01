@@ -20,30 +20,33 @@ public class TestGestioneOrdine {
 		try {
 			
 			// funziona
-			testInserimentoNuovoOrdine(ordineServiceInstance);
+			//testInserimentoNuovoOrdine(ordineServiceInstance);
 			
 			// funziona
-			testAggiornmentoOrdine(ordineServiceInstance);
+			//testAggiornmentoOrdine(ordineServiceInstance);
 			
 			// funziona
-			testInserimentoArticoloAdOrdine(ordineServiceInstance, articoloServiceInstance);
+			//testInserimentoArticoloAdOrdine(ordineServiceInstance, articoloServiceInstance);
 			
 			// funziona
-			testInserimentoCategoriaAdArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			//testInserimentoCategoriaAdArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
 			
 			// funziona
-			testInserimentoArticoloACategoria(categoriaServiceInstance, articoloServiceInstance, ordineServiceInstance);
+			//testInserimentoArticoloACategoria(categoriaServiceInstance, articoloServiceInstance, ordineServiceInstance);
 			
 			// funziona
-			testRimozioneArticoloConCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			//testRimozioneArticoloConCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			
+			
+			testRimozioneOrdineConArticoli(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
 			
 			// funziona
-			testRimozioneCategoriaDaArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			//testRimozioneCategoriaDaArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
 			
 			// funziona
-			testRimozioneArticoloDaCategoria(categoriaServiceInstance, articoloServiceInstance, ordineServiceInstance);
+			//testRimozioneArticoloDaCategoria(categoriaServiceInstance, articoloServiceInstance, ordineServiceInstance);
 			
-			testList(articoloServiceInstance, ordineServiceInstance, categoriaServiceInstance);
+			//testList(articoloServiceInstance, ordineServiceInstance, categoriaServiceInstance);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -239,16 +242,12 @@ public class TestGestioneOrdine {
 		// inserisco un articolo 
 		Articolo articolo = new Articolo("giornale", 1);
 		articolo.setOrdine(ordine);
-		
-		//aggiungo l'articolo al db
 		articoloServiceInstance.inserisciNuovo(articolo);
 		if (articolo.getId() == null)
 			throw new RuntimeException("non è stato possibile inserire il record");
 		
 		// aggiungo una categoria
 		Categoria categoria = new Categoria("thriller", "00a1");
-		
-		//aggiungo la categoria al db
 		categoriaServiceInstance.inserisciNuovo(categoria);
 		if (categoria.getId() == null)
 			throw new RuntimeException("non è stato possibile inserire il record");
@@ -262,10 +261,13 @@ public class TestGestioneOrdine {
 		if (articoloReloaded.getCategorie().isEmpty())
 			throw new RuntimeException("non è stato possibile inserire il record");
 		
-		// a questo punto voglio scollegare la categoria dall'articolo
-		articoloServiceInstance.rimuoviCategoria(articolo, categoria);
+		//System.out.println(articoloReloaded);
 		
-		if (!articolo.getCategorie().isEmpty())
+		// a questo punto voglio scollegare la categoria dall'articolo
+		articoloServiceInstance.rimuoviCategoria(articoloReloaded, categoria);
+		
+		articoloReloaded = articoloServiceInstance.caricaSingoloElementoEager(articolo.getId());
+		if (!articoloReloaded.getCategorie().isEmpty())
 			throw new RuntimeException("non è stato possibile scollegare il record");
 		
 		
@@ -349,4 +351,28 @@ public class TestGestioneOrdine {
 		
 		System.out.println(".......... FINE testList: successo ..........");
 	}
+	
+	private static void testRimozioneOrdineConArticoli(ArticoloService articoloServiceInstance, CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
+		System.out.println(".......... INIZIO testRimozioneOrdineConArticoli ..........");
+		
+		// inserisco un ordine
+		Ordine ordine = new Ordine("mario verdi", "via pietro belon");
+		ordineServiceInstance.inserisciNuovo(ordine);
+		if (ordine.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// inserisco un articolo
+		Articolo articolo = new Articolo("giornale", 1);
+		articolo.setOrdine(ordine); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo);
+		if (articolo.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// provo ad eliminare l'ordine
+		
+		
+		System.out.println(".......... FINE testRimozioneOrdineConArticoli: successo ..........");
+	}
+	
+	
 }
