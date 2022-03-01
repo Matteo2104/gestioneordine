@@ -46,6 +46,11 @@ public class Ordine {
 		this.nomeDestinatario = nomeDestinatario;
 		this.indirizzoSpedizione = indirizzoSpedizione;
 	}
+	public Ordine(String nomeDestinatario, String indirizzoSpedizione, Date dataSpedizione) {
+		this.nomeDestinatario = nomeDestinatario;
+		this.indirizzoSpedizione = indirizzoSpedizione;
+		this.dataSpedizione = dataSpedizione;
+	}
 
 	public Long getId() {
 		return id;

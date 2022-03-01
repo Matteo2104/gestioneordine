@@ -12,4 +12,6 @@ public interface OrdineDAO extends IBaseDAO<Ordine> {
 
 	// esercizi per casa
 	public List<Ordine> findOrdineByCategoria(Categoria categoria) throws Exception;
+
+	public Ordine mostRecentOrdineDataCategoria(Categoria categoria) throws Exception;
 }

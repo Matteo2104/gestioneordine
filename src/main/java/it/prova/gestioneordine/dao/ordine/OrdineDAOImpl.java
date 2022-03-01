@@ -70,5 +70,13 @@ public class OrdineDAOImpl implements OrdineDAO {
 		query.setParameter(1, categoria.getId());
 		return query.getResultList();
 	}
+	
+	@Override
+	public Ordine mostRecentOrdineDataCategoria(Categoria categoria) throws Exception {
+		TypedQuery<Ordine> query = entityManager.createQuery("select max(a.ordine.dataSpedizione) from Articolo a join a.categorie c where c.id = ?1", Ordine.class);
+		
+		query.setParameter(1, categoria.getId());
+		return query.getSingleResult();
+	}
 
 }

@@ -28,4 +28,6 @@ public interface OrdineService {
 
 	// esercizi per casa
 	public List<Ordine> ordiniPerCategoria(Categoria categoria) throws Exception;
+
+	public Ordine ordinePiuRecenteDataCategoria(Categoria categoria) throws Exception;
 }
