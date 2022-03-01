@@ -81,6 +81,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			
 
 			categoriaInstance.getArticoli().add(articoloInstance);
+			articoloInstance.getCategorie().add(categoriaInstance);
 			// l'update non viene richiamato a mano in quanto
 			// risulta automatico, infatti il contesto di persistenza
 			// rileva che cdInstance ora è dirty vale a dire che una sua
