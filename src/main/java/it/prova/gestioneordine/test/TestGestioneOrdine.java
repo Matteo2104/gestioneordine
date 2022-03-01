@@ -18,18 +18,20 @@ public class TestGestioneOrdine {
 		try {
 			
 			// funziona
-			//testInserimentoNuovoOrdine(ordineServiceInstance);
+			testInserimentoNuovoOrdine(ordineServiceInstance);
 			
 			// funziona
-			//testAggiornmentoOrdine(ordineServiceInstance);
-			
-			//testInserimentoArticoloAdOrdine(ordineServiceInstance, articoloServiceInstance);
+			testAggiornmentoOrdine(ordineServiceInstance);
 			
 			// funziona
-			//testInserimentoCategoriaAdArticolo(articoloServiceInstance, categoriaServiceInstance);
+			testInserimentoArticoloAdOrdine(ordineServiceInstance, articoloServiceInstance);
+			
+			// funziona
+			testInserimentoCategoriaAdArticolo(articoloServiceInstance, categoriaServiceInstance);
 			
 			//testInserimentoArticoloACategoria(categoriaServiceInstance, articoloServiceInstance);
 			
+			// funziona
 			testRimozioneArticoloConCategoria(articoloServiceInstance, categoriaServiceInstance);
 
 		} catch (Throwable e) {
@@ -77,8 +79,7 @@ public class TestGestioneOrdine {
 		
 		// inserisco un articolo
 		Articolo articolo = new Articolo("latte", 2);
-		
-		//prima devo aggiungere l'articolo al db 
+		articolo.setOrdine(ordine);
 		articoloServiceInstance.inserisciNuovo(articolo);
 		if (articolo.getId() == null)
 			throw new RuntimeException("non è stato possibile inserire il record");
@@ -193,7 +194,6 @@ public class TestGestioneOrdine {
 		} catch (Exception e) {
 			
 		}
-		
 		
 		System.out.println(".......... FINE testRimozioneCategoriaDaArticolo: successo ..........");
 	}
