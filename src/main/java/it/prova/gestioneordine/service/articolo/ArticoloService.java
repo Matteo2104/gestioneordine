@@ -7,6 +7,7 @@ import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Categoria;
 
 public interface ArticoloService {
+	// crud classico
 	public List<Articolo> listAll() throws Exception;
 
 	public Articolo caricaSingoloElemento(Long id) throws Exception;
@@ -20,7 +21,11 @@ public interface ArticoloService {
 	// per injection
 	public void setArticoloDAO(ArticoloDAO articoloDAO);
 
+	
+	// utilities
 	public void aggiungiCategoriaAdArticolo(Articolo articoloInstance, Categoria categoriaInstance) throws Exception;
 
 	public Articolo caricaSingoloElementoEager(Long id) throws Exception;
+
+	void rimuoviCategoria(Articolo articoloInstance, Categoria categoriaInstance) throws Exception;
 }

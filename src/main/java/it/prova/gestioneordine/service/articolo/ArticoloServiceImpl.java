@@ -133,4 +133,32 @@ public class ArticoloServiceImpl implements ArticoloService {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
+	
+	@Override
+	public void rimuoviCategoria(Articolo articoloInstance, Categoria categoriaInstance) throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			entityManager.getTransaction().begin();
+
+			// uso l'injection per il dao
+			articoloDAO.setEntityManager(entityManager);
+			
+			articoloInstance = entityManager.merge(articoloInstance);
+			
+			categoriaInstance = entityManager.merge(categoriaInstance);
+			
+			articoloInstance.getCategorie().remove(categoriaInstance);
+
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}
+	}
+	
 }

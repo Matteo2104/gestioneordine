@@ -27,12 +27,16 @@ public class TestGestioneOrdine {
 			testInserimentoArticoloAdOrdine(ordineServiceInstance, articoloServiceInstance);
 			
 			// funziona
-			testInserimentoCategoriaAdArticolo(articoloServiceInstance, categoriaServiceInstance);
+			testInserimentoCategoriaAdArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			
 			
 			//testInserimentoArticoloACategoria(categoriaServiceInstance, articoloServiceInstance);
 			
 			// funziona
-			testRimozioneArticoloConCategoria(articoloServiceInstance, categoriaServiceInstance);
+			testRimozioneArticoloConCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			
+			// funziona
+			testRimozioneCategoriaDaArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -94,11 +98,19 @@ public class TestGestioneOrdine {
 		System.out.println(".......... FINE testInserimentoArticoloAdOrdine: successo ..........");
 	}
 	
-	private static void testInserimentoCategoriaAdArticolo(ArticoloService articoloServiceInstance, CategoriaService categoriaServiceInstance) throws Exception {
+	private static void testInserimentoCategoriaAdArticolo(ArticoloService articoloServiceInstance, CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
 		System.out.println(".......... INIZIO testInserimentoCategoriaAdArticolo ..........");
 		
+		// inserisco un ordine
+		Ordine ordine = new Ordine("mario verdi", "via pietro belon");
+		ordineServiceInstance.inserisciNuovo(ordine);
+		if (ordine.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+				
+				
 		// inserisco un articolo 
 		Articolo articolo = new Articolo("giornale", 1);
+		articolo.setOrdine(ordine);
 		
 		//aggiungo l'articolo al db
 		articoloServiceInstance.inserisciNuovo(articolo);
@@ -159,11 +171,19 @@ public class TestGestioneOrdine {
 		System.out.println(".......... FINE testInserimentoArticoloACategoria: successo ..........");
 	}
 	
-	private static void testRimozioneArticoloConCategoria(ArticoloService articoloServiceInstance, CategoriaService categoriaServiceInstance) throws Exception {
-		System.out.println(".......... INIZIO testRimozioneCategoriaDaArticolo ..........");
+	private static void testRimozioneArticoloConCategoria(ArticoloService articoloServiceInstance, CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
+		System.out.println(".......... INIZIO testRimozioneArticoloConCategoria ..........");
 		
+		// inserisco un ordine
+		Ordine ordine = new Ordine("mario verdi", "via pietro belon");
+		ordineServiceInstance.inserisciNuovo(ordine);
+		if (ordine.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+				
+				
 		// inserisco un articolo 
 		Articolo articolo = new Articolo("giornale", 1);
+		articolo.setOrdine(ordine);
 		
 		//aggiungo l'articolo al db
 		articoloServiceInstance.inserisciNuovo(articolo);
@@ -194,6 +214,52 @@ public class TestGestioneOrdine {
 		} catch (Exception e) {
 			
 		}
+		
+		System.out.println(".......... FINE testRimozioneArticoloConCategoria: successo ..........");
+	}
+	
+	private static void testRimozioneCategoriaDaArticolo(ArticoloService articoloServiceInstance, CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
+		System.out.println(".......... INIZIO testRimozioneCategoriaDaArticolo ..........");
+		
+		// inserisco un ordine
+		Ordine ordine = new Ordine("mario verdi", "via pietro belon");
+		ordineServiceInstance.inserisciNuovo(ordine);
+		if (ordine.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+				
+				
+		// inserisco un articolo 
+		Articolo articolo = new Articolo("giornale", 1);
+		articolo.setOrdine(ordine);
+		
+		//aggiungo l'articolo al db
+		articoloServiceInstance.inserisciNuovo(articolo);
+		if (articolo.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// aggiungo una categoria
+		Categoria categoria = new Categoria("thriller", "00a1");
+		
+		//aggiungo la categoria al db
+		categoriaServiceInstance.inserisciNuovo(categoria);
+		if (categoria.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// eseguo il collegamento
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo, categoria);
+		
+		
+		// ricarico l'articolo eager in modo da forzare il test
+		Articolo articoloReloaded = articoloServiceInstance.caricaSingoloElementoEager(articolo.getId());
+		if (articoloReloaded.getCategorie().isEmpty())
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// a questo punto voglio scollegare la categoria dall'articolo
+		articoloServiceInstance.rimuoviCategoria(articolo, categoria);
+		
+		if (!articolo.getCategorie().isEmpty())
+			throw new RuntimeException("non è stato possibile scollegare il record");
+		
 		
 		System.out.println(".......... FINE testRimozioneCategoriaDaArticolo: successo ..........");
 	}
