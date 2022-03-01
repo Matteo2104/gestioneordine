@@ -49,8 +49,14 @@ public class TestGestioneOrdine {
 			// funziona
 			//testList(articoloServiceInstance, ordineServiceInstance, categoriaServiceInstance);
 			
-			//
+			// ok
 			testTrovaOrdiniDataCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			
+			// ok
+			testTrovaCategorieDatiOrdini(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+			
+			// ok
+			testSommaArticoliDatoOrdine(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -478,5 +484,209 @@ public class TestGestioneOrdine {
 		
 		
 		System.out.println(".......... FINE testTrovaOrdiniDataCategoria: successo ..........");
+	}
+	
+	private static void testTrovaCategorieDatiOrdini(ArticoloService articoloServiceInstance, CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
+		System.out.println(".......... INIZIO testTrovaCategorieDatiOrdini ..........");
+		
+		// inserisco 3 ordini
+		Ordine ordine1 = new Ordine("mario verdi", "via pietro belon");
+		ordineServiceInstance.inserisciNuovo(ordine1);
+		if (ordine1.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Ordine ordine2 = new Ordine("matteo scarcella", "via walter tobagi");
+		ordineServiceInstance.inserisciNuovo(ordine2);
+		if (ordine2.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Ordine ordine3 = new Ordine("maria rossi", "via armando mecali");
+		ordineServiceInstance.inserisciNuovo(ordine3);
+		if (ordine3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// inserisco articoli per ogni ordine
+		Articolo articolo1ordine1 = new Articolo("giornale", 1);
+		articolo1ordine1.setOrdine(ordine1); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo1ordine1);
+		if (articolo1ordine1.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo2ordine1 = new Articolo("giornale", 10);
+		articolo2ordine1.setOrdine(ordine1); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo2ordine1);
+		if (articolo2ordine1.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo1ordine2 = new Articolo("giornale", 12);
+		articolo1ordine2.setOrdine(ordine2); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo1ordine2);
+		if (articolo1ordine2.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo1ordine3 = new Articolo("giornale", 13);
+		articolo1ordine3.setOrdine(ordine3); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo1ordine3);
+		if (articolo1ordine3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo2ordine3 = new Articolo("giornale", 15);
+		articolo2ordine3.setOrdine(ordine3); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo2ordine3);
+		if (articolo2ordine3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo3ordine3 = new Articolo("giornale", 7);
+		articolo3ordine3.setOrdine(ordine3); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo3ordine3);
+		if (articolo3ordine3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// poi inserisco 4 categorie
+		Categoria categoria1 = new Categoria("thriller", "00a1");
+		categoriaServiceInstance.inserisciNuovo(categoria1);
+		if (categoria1.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Categoria categoria2 = new Categoria("rosso", "00f4");
+		categoriaServiceInstance.inserisciNuovo(categoria2);
+		if (categoria2.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Categoria categoria3 = new Categoria("horror", "00j9");
+		categoriaServiceInstance.inserisciNuovo(categoria3);
+		if (categoria3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Categoria categoria4 = new Categoria("giallo", "05z1");
+		categoriaServiceInstance.inserisciNuovo(categoria4);
+		if (categoria4.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// associo le categorie agli articoli...
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo1ordine1, categoria1);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo2ordine1, categoria2);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo1ordine2, categoria3);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo1ordine3, categoria4);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo2ordine3, categoria2);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo3ordine3, categoria3);
+		
+		// associo gli articoli agli ordini
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine1, articolo1ordine1);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine1, articolo2ordine1);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine2, articolo1ordine2);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine3, articolo1ordine3);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine3, articolo2ordine3);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine3, articolo3ordine3);
+		
+		// eseguo la query
+		List<Categoria> listaDiCategorie = categoriaServiceInstance.trovaTutteCategorieDistinteDatoOrdine(ordine3);
+		if (listaDiCategorie.size() < 3) 
+			throw new RuntimeException("non è stato possibile eseguire la query");
+		
+		
+		System.out.println(".......... FINE testTrovaCategorieDatiOrdini: successo ..........");
+	}
+	
+	private static void testSommaArticoliDatoOrdine(ArticoloService articoloServiceInstance, CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
+		System.out.println(".......... INIZIO testSommaArticoliDatoOrdine ..........");
+		
+		// inserisco 3 ordini
+		Ordine ordine1 = new Ordine("mario verdi", "via pietro belon");
+		ordineServiceInstance.inserisciNuovo(ordine1);
+		if (ordine1.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Ordine ordine2 = new Ordine("matteo scarcella", "via walter tobagi");
+		ordineServiceInstance.inserisciNuovo(ordine2);
+		if (ordine2.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Ordine ordine3 = new Ordine("maria rossi", "via armando mecali");
+		ordineServiceInstance.inserisciNuovo(ordine3);
+		if (ordine3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// inserisco articoli per ogni ordine
+		Articolo articolo1ordine1 = new Articolo("giornale", 1);
+		articolo1ordine1.setOrdine(ordine1); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo1ordine1);
+		if (articolo1ordine1.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo2ordine1 = new Articolo("giornale", 10);
+		articolo2ordine1.setOrdine(ordine1); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo2ordine1);
+		if (articolo2ordine1.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo1ordine2 = new Articolo("giornale", 12);
+		articolo1ordine2.setOrdine(ordine2); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo1ordine2);
+		if (articolo1ordine2.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo1ordine3 = new Articolo("giornale", 13);
+		articolo1ordine3.setOrdine(ordine3); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo1ordine3);
+		if (articolo1ordine3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo2ordine3 = new Articolo("giornale", 15);
+		articolo2ordine3.setOrdine(ordine3); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo2ordine3);
+		if (articolo2ordine3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Articolo articolo3ordine3 = new Articolo("giornale", 7);
+		articolo3ordine3.setOrdine(ordine3); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo3ordine3);
+		if (articolo3ordine3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// poi inserisco 4 categorie
+		Categoria categoria1 = new Categoria("thriller", "00a1");
+		categoriaServiceInstance.inserisciNuovo(categoria1);
+		if (categoria1.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Categoria categoria2 = new Categoria("rosso", "00f4");
+		categoriaServiceInstance.inserisciNuovo(categoria2);
+		if (categoria2.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Categoria categoria3 = new Categoria("horror", "00j9");
+		categoriaServiceInstance.inserisciNuovo(categoria3);
+		if (categoria3.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		Categoria categoria4 = new Categoria("giallo", "05z1");
+		categoriaServiceInstance.inserisciNuovo(categoria4);
+		if (categoria4.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// associo le categorie agli articoli...
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo1ordine1, categoria1);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo2ordine1, categoria2);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo1ordine2, categoria3);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo1ordine3, categoria4);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo2ordine3, categoria2);
+		articoloServiceInstance.aggiungiCategoriaAdArticolo(articolo3ordine3, categoria3);
+		
+		// associo gli articoli agli ordini
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine1, articolo1ordine1);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine1, articolo2ordine1);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine2, articolo1ordine2);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine3, articolo1ordine3);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine3, articolo2ordine3);
+		ordineServiceInstance.aggiungiArticoloAdOrdine(ordine3, articolo3ordine3);
+		
+		// eseguo la query
+		Long sommaArticoli = articoloServiceInstance.sommaPrezziDataCategoria(categoria3);
+		if (sommaArticoli == null) {
+			throw new RuntimeException("non è stato possibile eseguire la query");
+		}
+			
+		System.out.println(".......... FINE testSommaArticoliDatoOrdine: successo ..........");
 	}
 }

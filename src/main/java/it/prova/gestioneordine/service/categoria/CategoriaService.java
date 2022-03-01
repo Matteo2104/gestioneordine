@@ -5,6 +5,7 @@ import java.util.List;
 import it.prova.gestioneordine.dao.categoria.CategoriaDAO;
 import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Categoria;
+import it.prova.gestioneordine.model.Ordine;
 
 public interface CategoriaService {
 	public List<Categoria> listAll() throws Exception;
@@ -25,5 +26,7 @@ public interface CategoriaService {
 	public Categoria caricaSingoloElementoEager(Long id) throws Exception;
 
 	void rimuoviArticolo(Categoria categoriaInstance, Articolo articoloInstance) throws Exception;
+
+	List<Categoria> trovaTutteCategorieDistinteDatoOrdine(Ordine ordine) throws Exception;
 
 }

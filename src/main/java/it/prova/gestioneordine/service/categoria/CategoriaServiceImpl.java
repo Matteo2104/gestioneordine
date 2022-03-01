@@ -8,6 +8,7 @@ import it.prova.gestioneordine.dao.EntityManagerUtil;
 import it.prova.gestioneordine.dao.categoria.CategoriaDAO;
 import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Categoria;
+import it.prova.gestioneordine.model.Ordine;
 
 public class CategoriaServiceImpl implements CategoriaService {
 
@@ -145,6 +146,23 @@ public class CategoriaServiceImpl implements CategoriaService {
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}
+	}
+	
+	@Override
+	public List<Categoria> trovaTutteCategorieDistinteDatoOrdine(Ordine ordine) throws Exception {
+		// questo è come una connection
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			categoriaDAO.setEntityManager(entityManager);
+
+			return categoriaDAO.findAllDistinctCategorieDatoOrdine(ordine);
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		} finally {

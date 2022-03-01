@@ -31,5 +31,7 @@ public interface ArticoloService {
 
 	void rimuoviCategoria(Articolo articolo, Categoria categoria) throws Exception;
 
+	Long sommaPrezziDataCategoria(Categoria categoria) throws Exception;
+
 	
 }
