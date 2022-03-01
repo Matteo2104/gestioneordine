@@ -5,8 +5,6 @@ import java.util.List;
 import it.prova.gestioneordine.dao.articolo.ArticoloDAO;
 import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Categoria;
-import it.prova.gestioneordine.model.Ordine;
-
 
 public interface ArticoloService {
 	public List<Articolo> listAll() throws Exception;

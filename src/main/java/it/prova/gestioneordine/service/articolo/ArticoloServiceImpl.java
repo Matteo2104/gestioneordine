@@ -8,9 +8,8 @@ import it.prova.gestioneordine.dao.EntityManagerUtil;
 import it.prova.gestioneordine.dao.articolo.ArticoloDAO;
 import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Categoria;
-import it.prova.gestioneordine.model.Ordine;
 
-public class ArticoloServiceImpl  implements ArticoloService {
+public class ArticoloServiceImpl implements ArticoloService {
 
 	private ArticoloDAO articoloDAO;
 	
@@ -57,8 +56,29 @@ public class ArticoloServiceImpl  implements ArticoloService {
 
 	@Override
 	public void rimuovi(Articolo articoloInstance) throws Exception {
-		// TODO Auto-generated method stub
-		
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			entityManager.getTransaction().begin();
+
+			// uso l'injection per il dao
+			articoloDAO.setEntityManager(entityManager);
+
+			// ricarico l'articolo eager
+			Articolo articoloReloaded = articoloDAO.findByIdFetchingCategorie(articoloInstance.getId());
+			if (!articoloReloaded.getCategorie().isEmpty())
+				throw new RuntimeException("IMPOSSIBILE ELIMINARE ARTICOLO: esistono delle categorie ad esso collegate");
+			
+			articoloDAO.delete(articoloInstance);
+			
+			entityManager.getTransaction().commit();
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}
 	}
 
 	@Override

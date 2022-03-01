@@ -44,8 +44,10 @@ public class ArticoloDAOImpl implements ArticoloDAO {
 
 	@Override
 	public void delete(Articolo o) throws Exception {
-		// TODO Auto-generated method stub
+		if (o == null)
+			throw new RuntimeException("Problema nei valori passati in input");
 		
+		entityManager.remove(entityManager.merge(o));
 	}
 	
 	@Override

@@ -118,7 +118,7 @@ public class OrdineServiceImpl implements OrdineService {
 
 			ordineDAO.setEntityManager(entityManager);
 			
-			return ordineDAO.getEager(id);
+			return ordineDAO.findByIdFetchingArticoli(id);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,6 +127,4 @@ public class OrdineServiceImpl implements OrdineService {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
-	
-
 }

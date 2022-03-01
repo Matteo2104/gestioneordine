@@ -20,4 +20,8 @@ public interface CategoriaService {
 	// per injection
 	public void setCategoriaDAO(CategoriaDAO categoriaDAO);
 
+	public void aggiungiArticoloACategoria(Categoria categoriaInstance, Articolo articoloInstance) throws Exception;
+
+	public Categoria caricaSingoloElementoEager(Long id) throws Exception;
+
 }

@@ -5,4 +5,6 @@ import it.prova.gestioneordine.model.Categoria;
 
 public interface CategoriaDAO extends IBaseDAO<Categoria> {
 
+	public Categoria findByIdFetchingArticoli(Long id) throws Exception;
+
 }
