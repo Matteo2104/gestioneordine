@@ -36,6 +36,12 @@ public class Categoria {
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categorie")
 	private Set<Articolo> articoli = new HashSet<Articolo>();
+	
+	public Categoria() {}
+	public Categoria(String descrizione, String codice) {
+		this.descrizione = descrizione;
+		this.codice = codice;
+	}
 
 	public Long getId() {
 		return id;

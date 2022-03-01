@@ -3,6 +3,7 @@ package it.prova.gestioneordine.service.categoria;
 import java.util.List;
 
 import it.prova.gestioneordine.dao.categoria.CategoriaDAO;
+import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Categoria;
 
 public interface CategoriaService {
@@ -18,4 +19,5 @@ public interface CategoriaService {
 
 	// per injection
 	public void setCategoriaDAO(CategoriaDAO categoriaDAO);
+
 }

@@ -3,6 +3,7 @@ package it.prova.gestioneordine.dao.articolo;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import it.prova.gestioneordine.model.Articolo;
 
@@ -35,13 +36,23 @@ public class ArticoloDAOImpl implements ArticoloDAO {
 
 	@Override
 	public void insert(Articolo o) throws Exception {
-		// TODO Auto-generated method stub
+		if (o == null)
+			throw new RuntimeException("Problema nei valori passati in input");
 		
+		entityManager.persist(o);
 	}
 
 	@Override
 	public void delete(Articolo o) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public Articolo findByIdFetchingCategorie(Long id) throws Exception {
+		TypedQuery<Articolo> query = entityManager
+				.createQuery("select a FROM Articolo a left join fetch a.categorie g where a.id = ?1", Articolo.class);
+		query.setParameter(1, id);
+		return query.getResultList().stream().findFirst().orElse(null);
 	}
 }

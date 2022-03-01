@@ -4,5 +4,5 @@ import it.prova.gestioneordine.dao.IBaseDAO;
 import it.prova.gestioneordine.model.Ordine;
 
 public interface OrdineDAO extends IBaseDAO<Ordine> {
-
+	public Ordine getEager(Long id) throws Exception;
 }

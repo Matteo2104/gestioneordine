@@ -3,6 +3,7 @@ package it.prova.gestioneordine.service.ordine;
 import java.util.List;
 
 import it.prova.gestioneordine.dao.ordine.OrdineDAO;
+import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Ordine;
 
 
@@ -19,4 +20,8 @@ public interface OrdineService {
 
 	// per injection
 	public void setOrdineDAO(OrdineDAO ordineDAO);
+
+	public void aggiungiArticoloAdOrdine(Ordine ordineInstance, Articolo articoloInstance) throws Exception;
+	
+	public Ordine caricaSingoloElementoEager(Long id) throws Exception;
 }

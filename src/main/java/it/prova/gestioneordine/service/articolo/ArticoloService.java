@@ -4,6 +4,8 @@ import java.util.List;
 
 import it.prova.gestioneordine.dao.articolo.ArticoloDAO;
 import it.prova.gestioneordine.model.Articolo;
+import it.prova.gestioneordine.model.Categoria;
+import it.prova.gestioneordine.model.Ordine;
 
 
 public interface ArticoloService {
@@ -19,4 +21,8 @@ public interface ArticoloService {
 
 	// per injection
 	public void setArticoloDAO(ArticoloDAO articoloDAO);
+
+	public void aggiungiCategoriaAdArticolo(Articolo articoloInstance, Categoria categoriaInstance) throws Exception;
+
+	public Articolo caricaSingoloElementoEager(Long id) throws Exception;
 }

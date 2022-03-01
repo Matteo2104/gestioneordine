@@ -48,5 +48,10 @@ public class OrdineDAOImpl implements OrdineDAO {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public Ordine getEager(Long id) throws Exception {
+		return entityManager.find(Ordine.class, id);
+	}
 
 }
