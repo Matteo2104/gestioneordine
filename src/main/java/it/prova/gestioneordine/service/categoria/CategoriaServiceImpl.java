@@ -20,8 +20,16 @@ public class CategoriaServiceImpl implements CategoriaService {
 	
 	@Override
 	public List<Categoria> listAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		
+		try {
+			categoriaDAO.setEntityManager(entityManager);
+			
+			return categoriaDAO.list();
+			
+		} catch (Exception e) {
+			throw new RuntimeException("errore nel service");
+		}
 	}
 
 	@Override

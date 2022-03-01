@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
 import it.prova.gestioneordine.model.Ordine;
 
 public class OrdineDAOImpl implements OrdineDAO {
@@ -18,8 +17,8 @@ public class OrdineDAOImpl implements OrdineDAO {
 
 	@Override
 	public List<Ordine> list() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Ordine> query = entityManager.createQuery("from Ordine", Ordine.class);
+		return query.getResultList();
 	}
 
 	@Override

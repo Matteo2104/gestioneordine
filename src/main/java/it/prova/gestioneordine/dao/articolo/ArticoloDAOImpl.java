@@ -18,8 +18,8 @@ public class ArticoloDAOImpl implements ArticoloDAO {
 	
 	@Override
 	public List<Articolo> list() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Articolo> query = entityManager.createQuery("from Articolo", Articolo.class);
+		return query.getResultList();
 	}
 
 	@Override

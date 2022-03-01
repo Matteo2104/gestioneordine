@@ -20,8 +20,16 @@ public class ArticoloServiceImpl implements ArticoloService {
 	
 	@Override
 	public List<Articolo> listAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		
+		try {
+			articoloDAO.setEntityManager(entityManager);
+			
+			return articoloDAO.list();
+			
+		} catch (Exception e) {
+			throw new RuntimeException("errore nel service");
+		}
 	}
 
 	@Override

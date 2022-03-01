@@ -20,8 +20,16 @@ public class OrdineServiceImpl implements OrdineService {
 	
 	@Override
 	public List<Ordine> listAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+		
+		try {
+			ordineDAO.setEntityManager(entityManager);
+			
+			return ordineDAO.list();
+			
+		} catch (Exception e) {
+			throw new RuntimeException("errore nel service");
+		}
 	}
 
 	@Override

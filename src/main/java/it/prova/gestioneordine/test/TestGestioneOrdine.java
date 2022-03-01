@@ -1,5 +1,7 @@
 package it.prova.gestioneordine.test;
 
+import java.util.List;
+
 import it.prova.gestioneordine.dao.EntityManagerUtil;
 import it.prova.gestioneordine.model.Articolo;
 import it.prova.gestioneordine.model.Categoria;
@@ -40,6 +42,8 @@ public class TestGestioneOrdine {
 			
 			// funziona
 			testRimozioneArticoloDaCategoria(categoriaServiceInstance, articoloServiceInstance, ordineServiceInstance);
+			
+			testList(articoloServiceInstance, ordineServiceInstance, categoriaServiceInstance);
 
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -305,5 +309,44 @@ public class TestGestioneOrdine {
 			throw new RuntimeException("non è stato possibile scollegare il record");
 		
 		System.out.println(".......... FINE testRimozioneArticoloDaCategoria: successo ..........");
+	}
+	
+	private static void testList(ArticoloService articoloServiceInstance, OrdineService ordineServiceInstance, CategoriaService categoriaServiceInstance) throws Exception {
+		System.out.println(".......... INIZIO testList ..........");
+		
+		// inserisco un ordine
+		Ordine ordine = new Ordine("mario verdi", "via pietro belon");
+		ordineServiceInstance.inserisciNuovo(ordine);
+		if (ordine.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// inserisco un articolo
+		Articolo articolo = new Articolo("giornale", 1);
+		articolo.setOrdine(ordine); 		// perche articolo è nullable=false
+		articoloServiceInstance.inserisciNuovo(articolo);
+		if (articolo.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		// aggiungo una categoria
+		Categoria categoria = new Categoria("thriller", "00a1");
+		categoriaServiceInstance.inserisciNuovo(categoria);
+		if (categoria.getId() == null)
+			throw new RuntimeException("non è stato possibile inserire il record");
+		
+		
+		// adesso voglio stamparli tutti
+		List<Ordine> listaDiOrdini = ordineServiceInstance.listAll();
+		if (listaDiOrdini.size() < 1) 
+			throw new RuntimeException("non è stato possibile stampare correttamente i record");
+		
+		List<Articolo> listaDiArticoli = articoloServiceInstance.listAll();
+		if (listaDiArticoli.size() < 1) 
+			throw new RuntimeException("non è stato possibile stampare correttamente i record");
+		
+		List<Categoria> listaDiCategorie = categoriaServiceInstance.listAll();
+		if (listaDiArticoli.size() < 1) 
+			throw new RuntimeException("non è stato possibile stampare correttamente i record");
+		
+		System.out.println(".......... FINE testList: successo ..........");
 	}
 }

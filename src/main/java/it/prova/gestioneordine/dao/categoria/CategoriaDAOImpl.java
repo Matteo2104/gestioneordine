@@ -18,8 +18,8 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	
 	@Override
 	public List<Categoria> list() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Categoria> query = entityManager.createQuery("from Categoria", Categoria.class);
+		return query.getResultList();
 	}
 
 	@Override
