@@ -24,4 +24,6 @@ public interface CategoriaService {
 
 	public Categoria caricaSingoloElementoEager(Long id) throws Exception;
 
+	void rimuoviArticolo(Categoria categoriaInstance, Articolo articoloInstance) throws Exception;
+
 }
