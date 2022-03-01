@@ -29,14 +29,18 @@ public class OrdineDAOImpl implements OrdineDAO {
 
 	@Override
 	public void update(Ordine o) throws Exception {
-		// TODO Auto-generated method stub
+		if (o == null)
+			throw new RuntimeException("Problema nel valore passato in input");
 		
+		o = entityManager.merge(o);
 	}
 
 	@Override
 	public void insert(Ordine o) throws Exception {
-		// TODO Auto-generated method stub
+		if (o == null)
+			throw new RuntimeException("Problema nel valore passato in input");
 		
+		entityManager.persist(o);
 	}
 
 	@Override

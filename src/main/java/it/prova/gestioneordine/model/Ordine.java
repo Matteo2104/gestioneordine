@@ -40,6 +40,12 @@ public class Ordine {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ordine")
 	private Set<Articolo> articoli = new HashSet<>();
+	
+	public Ordine() {}
+	public Ordine(String nomeDestinatario, String indirizzoSpedizione) {
+		this.nomeDestinatario = nomeDestinatario;
+		this.indirizzoSpedizione = indirizzoSpedizione;
+	}
 
 	public Long getId() {
 		return id;
