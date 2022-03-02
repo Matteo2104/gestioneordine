@@ -64,4 +64,10 @@ public class ArticoloDAOImpl implements ArticoloDAO {
 		query.setParameter(1, categoria.getId());
 		return query.getSingleResult();
 	}
+	
+	@Override
+	public Long sumOfArticoliMarioRossi() throws Exception {
+		TypedQuery<Long> query = entityManager.createQuery("select sum(a.prezzoSingolo) FROM Articolo a join a.ordine o where o.nomeDestinatario = 'mario rossi'", Long.class);
+		return query.getSingleResult();
+	}
 }

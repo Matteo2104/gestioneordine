@@ -10,4 +10,6 @@ public interface ArticoloDAO extends IBaseDAO<Articolo> {
 
 	Long sumOfArticoliPerCategoria(Categoria categoria) throws Exception;
 
+	Long sumOfArticoliMarioRossi() throws Exception;
+
 }

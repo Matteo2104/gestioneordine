@@ -1,5 +1,7 @@
 package it.prova.gestioneordine.dao.categoria;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -64,4 +66,19 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		return query.getResultList();
 	}
 
+	@Override 
+	public List<String> findAllCodiciCategorieOrdiniFebbraio2022() throws Exception {
+		Date dataInizio = new Date();
+		Date dataFine = new Date();
+		Calendar c = Calendar.getInstance();
+		c.set(2022, 1, 0); // febbraio 2022
+		dataInizio = c.getTime();
+		c.set(2022, 2, 0); // marzo 2022
+		dataFine = c.getTime();
+		
+		TypedQuery<String> query = entityManager.createQuery("select distinct c.codice FROM Categoria c join c.articoli a where a.ordine.dataSpedizione between ?1 and ?2", String.class);
+		query.setParameter(1, dataInizio);
+		query.setParameter(2, dataFine);
+		return query.getResultList();
+	}
 }

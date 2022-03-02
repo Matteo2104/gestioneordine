@@ -29,4 +29,6 @@ public interface CategoriaService {
 
 	List<Categoria> trovaTutteCategorieDistinteDatoOrdine(Ordine ordine) throws Exception;
 
+	List<String> codiciCategorieOrdiniFebbraio2022() throws Exception;
+
 }

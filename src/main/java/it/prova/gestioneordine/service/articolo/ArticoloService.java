@@ -33,5 +33,7 @@ public interface ArticoloService {
 
 	Long sommaPrezziDataCategoria(Categoria categoria) throws Exception;
 
+	Long sommaPrezziMarioRossi() throws Exception;
+
 	
 }
