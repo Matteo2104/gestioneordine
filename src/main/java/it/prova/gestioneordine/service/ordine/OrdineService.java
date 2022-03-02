@@ -30,4 +30,6 @@ public interface OrdineService {
 	public List<Ordine> ordiniPerCategoria(Categoria categoria) throws Exception;
 
 	public Ordine ordinePiuRecenteDataCategoria(Categoria categoria) throws Exception;
+
+	List<String> indirizziDiOrdiniConSerialeInArticolo(String pezzoDiSeriale) throws Exception;
 }

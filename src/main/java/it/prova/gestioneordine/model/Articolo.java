@@ -57,6 +57,11 @@ public class Articolo {
 		this.descrizione = descrizione;
 		this.prezzoSingolo = prezzoSingolo;
 	}
+	public Articolo(String descrizione, String numeroSeriale, int prezzoSingolo) {
+		this.descrizione = descrizione;
+		this.numeroSeriale = numeroSeriale;
+		this.prezzoSingolo = prezzoSingolo;
+	}
 
 	public Long getId() {
 		return id;
